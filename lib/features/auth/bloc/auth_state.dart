@@ -1,38 +1,38 @@
 import 'package:equatable/equatable.dart';
 
-abstract class LoginState extends Equatable {}
+abstract class AuthState extends Equatable {}
 
-class LoginInitialState extends LoginState {
+class AuthInitialState extends AuthState {
   // only static page
   @override
   List<Object?> get props => [];
 }
 
-class LoginLoadingState extends LoginState {
+class AuthLoadingState extends AuthState {
   // only show login CircularIndicator
   @override
   List<Object?> get props => [];
 }
 
-class LoginSuccessState extends LoginState {
+class AuthSuccessState extends AuthState {
   // show data
   final String email;
-  LoginSuccessState(this.email);
+  AuthSuccessState(this.email);
   @override
   List<Object?> get props => [email];
 }
 
-class LoginErrorState extends LoginState {
+class AuthErrorState extends AuthState {
   // show & handle error
   final String error;
 
-  LoginErrorState(this.error);
+  AuthErrorState(this.error);
 
   @override
   List<Object?> get props => [error];
 }
 
-class ObscureButtonState extends LoginState {
+class ObscureButtonState extends AuthState {
   final bool isObscure;
 
   ObscureButtonState({required this.isObscure});

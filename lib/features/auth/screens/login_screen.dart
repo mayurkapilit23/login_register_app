@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login_register_app/modules/home/home_screen.dart';
-import 'package:login_register_app/modules/login/bloc/login_bloc.dart';
-import 'package:login_register_app/modules/login/bloc/login_event.dart';
-import 'package:login_register_app/modules/login/bloc/login_state.dart';
-import 'package:login_register_app/widgets/custom_button.dart';
-import 'package:login_register_app/widgets/custom_textfield.dart';
+import 'package:login_register_app/features/auth/bloc/auth_bloc.dart';
+import 'package:login_register_app/features/auth/bloc/auth_event.dart';
+import 'package:login_register_app/features/auth/bloc/auth_state.dart';
+import 'package:login_register_app/features/home/home_screen.dart';
+import 'package:login_register_app/core/widgets/custom_button.dart';
+import 'package:login_register_app/core/widgets/custom_textfield.dart';
 import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final email = emailEditingController.text.trim();
     final password = passwordEditingController.text.trim();
 
-    context.read<LoginBloc>().add(
+    context.read<AuthBloc>().add(
       LoginSubmitEvent(email: email, password: password),
     );
   }
@@ -35,9 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Color(0xffF0F0F0),
       // backgroundColor: AppColors.primary,
-      body: BlocConsumer<LoginBloc, LoginState>(
+      body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is LoginSuccessState) {
+          if (state is AuthSuccessState) {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(const SnackBar(content: Text("Login Successfully")));
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 builder: (context) => HomeScreen(email: state.email),
               ),
             );
-          } else if (state is LoginErrorState) {
+          } else if (state is AuthErrorState) {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.error)));
@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         hint: '************',
                         suffixIcon: IconButton(
                           onPressed: () {
-                            context.read<LoginBloc>().add(ObscureButtonEvent());
+                            context.read<AuthBloc>().add(ObscureButtonEvent());
                           },
                           icon: state is ObscureButtonState && !state.isObscure
                               ? const Icon(Icons.visibility_outlined)
@@ -171,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               // ✅ Centered Lottie Loading Overlay
-              if (state is LoginLoadingState)
+              if (state is AuthLoadingState)
                 Container(
                   color: Colors.black.withOpacity(0.5),
                   child: Center(

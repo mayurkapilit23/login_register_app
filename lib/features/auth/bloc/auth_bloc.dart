@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:login_register_app/modules/login/bloc/login_event.dart';
-import 'package:login_register_app/modules/login/bloc/login_state.dart';
+import 'package:login_register_app/features/auth/bloc/auth_event.dart';
+import 'package:login_register_app/features/auth/bloc/auth_state.dart';
 
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
   bool _isObscure = true;
 
-  LoginBloc() : super(LoginInitialState()) {
+  AuthBloc() : super(AuthInitialState()) {
     //loginSubmit event
 
     on<LoginSubmitEvent>(_handleLoginSubmitEvent);
@@ -15,9 +15,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<void> _handleLoginSubmitEvent(
     LoginSubmitEvent event,
-    Emitter<LoginState> emit,
+    Emitter<AuthState> emit,
   ) async {
-    emit(LoginLoadingState());
+    emit(AuthLoadingState());
     await Future.delayed(
       const Duration(seconds: 1),
     ); // Add a delay of 2 seconds
@@ -25,9 +25,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final isValidInput = _isValidInput(event.email, event.password);
 
     if (isValidInput) {
-      emit(LoginSuccessState(event.email));
+      emit(AuthSuccessState(event.email));
     } else {
-      emit(LoginErrorState('Invalid input'));
+      emit(AuthErrorState('Invalid input'));
     }
   }
 
