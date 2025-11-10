@@ -40,3 +40,13 @@ class ObscureButtonState extends AuthState {
   @override
   List<Object?> get props => [isObscure];
 }
+
+class AuthNavigateToRegisterState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+class AuthNavigateToLoginState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}

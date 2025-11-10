@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_register_app/core/constants/app_colors.dart';
 
 class HomeScreen extends StatelessWidget {
   final String email;
@@ -8,6 +9,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primaryBgColor,
       body: Center(
         child: Text("Email : $email", style: TextStyle(color: Colors.black)),
       ),

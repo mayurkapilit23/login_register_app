@@ -18,26 +18,24 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(borderRadius),
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(borderRadius),
-        child: Container(
-          decoration: BoxDecoration(
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.indigo,
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
-            color: Colors.indigo,
           ),
-          child: Container(
-            padding: padding,
-            alignment: Alignment.center,
-            child: Text(
-              text,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
+        ),
+        onPressed: onPressed,
+        child: Padding(
+          padding: padding,
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),

@@ -16,3 +16,13 @@ class ObscureButtonEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
+class NavigateToRegisterEvent extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class NavigateToLoginEvent extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}

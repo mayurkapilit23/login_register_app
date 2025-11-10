@@ -10,6 +10,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<LoginSubmitEvent>(_handleLoginSubmitEvent);
 
+    on<NavigateToRegisterEvent>(_navigateToRegisterScreen);
+    on<NavigateToLoginEvent>(_navigateToLoginScreen);
     on<ObscureButtonEvent>(_onObscureButtonState);
   }
 
@@ -37,5 +39,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onObscureButtonState(event, emit) {
     _isObscure = !_isObscure;
     emit(ObscureButtonState(isObscure: _isObscure));
+  }
+
+  Future<void> _navigateToRegisterScreen(
+    NavigateToRegisterEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoadingState());
+    await Future.delayed(const Duration(milliseconds: 500));
+    emit(AuthNavigateToRegisterState());
+  }
+
+  Future<void> _navigateToLoginScreen(
+    NavigateToLoginEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoadingState());
+    await Future.delayed(const Duration(milliseconds: 500));
+    emit(AuthNavigateToLoginState());
   }
 }

@@ -1,31 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login_register_app/core/constants/app_colors.dart';
-
 import 'package:login_register_app/core/constants/loading_overlay.dart';
+import 'package:login_register_app/core/widgets/custom_button.dart';
+import 'package:login_register_app/core/widgets/custom_textfield.dart';
 import 'package:login_register_app/features/auth/bloc/auth_bloc.dart';
 import 'package:login_register_app/features/auth/bloc/auth_event.dart';
 import 'package:login_register_app/features/auth/bloc/auth_state.dart';
-import 'package:login_register_app/features/auth/screens/register_screen.dart';
+import 'package:login_register_app/features/auth/screens/login_screen.dart';
 import 'package:login_register_app/features/home/home_screen.dart';
-import 'package:login_register_app/core/widgets/custom_button.dart';
-import 'package:login_register_app/core/widgets/custom_textfield.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen({super.key});
 
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
-
-  void _onLoginPressed(BuildContext context) {
-    FocusScope.of(context).unfocus(); // hides the keyboard
-    final email = emailEditingController.text.trim();
-    final password = passwordEditingController.text.trim();
-
-    context.read<AuthBloc>().add(
-      LoginSubmitEvent(email: email, password: password),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +37,9 @@ class LoginScreen extends StatelessWidget {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.error)));
-          } else if (state is AuthNavigateToRegisterState) {
+          } else if (state is AuthNavigateToLoginState) {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => RegisterScreen()),
+              MaterialPageRoute(builder: (context) => LoginScreen()),
             );
           }
         },
@@ -67,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       const SizedBox(height: 100),
                       Text(
-                        'Welcome Back!',
+                        'Create an Account',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 30,
@@ -76,7 +65,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        'Sign in to continue your journey',
+                        'Sign up to continue',
                         style: TextStyle(
                           // fontWeight: FontWeight.w600,
                           fontSize: 15,
@@ -84,6 +73,13 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 40),
+
+                      // Email field
+                      CustomTextField(
+                        controller: emailEditingController,
+                        hint: 'Full Name',
+                      ),
+                      const SizedBox(height: 20),
 
                       // Email field
                       CustomTextField(
@@ -108,28 +104,11 @@ class LoginScreen extends StatelessWidget {
                               : const Icon(Icons.visibility_off_outlined),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      // Forgot Password
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () => print("forgot password"),
-                          child: Text(
-                            'Forgot Password?',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
+
                       const SizedBox(height: 30),
 
                       // Login Button
-                      CustomButton(
-                        text: "Sign in",
-                        onPressed: () => _onLoginPressed(context),
-                      ),
+                      CustomButton(text: "Sign Up", onPressed: () {}),
                       const SizedBox(height: 20),
                       const Align(
                         alignment: Alignment.center,
@@ -150,13 +129,13 @@ class LoginScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
 
                         children: [
-                          Text('Don\'t have an account?'),
+                          Text('Already have an account?'),
                           TextButton(
                             onPressed: () => context.read<AuthBloc>().add(
-                              NavigateToRegisterEvent(),
+                              NavigateToLoginEvent(),
                             ),
                             child: Text(
-                              'Sign Up',
+                              'Sign In',
 
                               style: TextStyle(color: Colors.indigo),
                             ),
@@ -168,7 +147,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
 
-              //  Centered Lottie Loading Overlay
+              // Centered Lottie Loading Overlay
               if (state is AuthLoadingState) buildLoadingOverlay(),
             ],
           );
