@@ -8,31 +8,24 @@ import 'package:login_register_app/features/auth/bloc/auth_bloc.dart';
 import 'package:login_register_app/features/auth/bloc/auth_event.dart';
 import 'package:login_register_app/features/auth/bloc/auth_state.dart';
 import 'package:login_register_app/features/auth/screens/login_screen.dart';
-import 'package:login_register_app/features/home/home_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
   final emailEditingController = TextEditingController();
+  final fullNameEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBgColor,
-      // backgroundColor: AppColors.primary,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccessState) {
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(const SnackBar(content: Text("Login Successfully")));
-
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => HomeScreen(email: state.email),
-              ),
-            );
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           } else if (state is AuthErrorState) {
             ScaffoldMessenger.of(
               context,
@@ -76,7 +69,7 @@ class RegisterScreen extends StatelessWidget {
 
                       // Email field
                       CustomTextField(
-                        controller: emailEditingController,
+                        controller: fullNameEditingController,
                         hint: 'Full Name',
                       ),
                       const SizedBox(height: 20),
@@ -96,9 +89,9 @@ class RegisterScreen extends StatelessWidget {
                         controller: passwordEditingController,
                         hint: 'Password',
                         suffixIcon: IconButton(
-                          onPressed: () {
-                            context.read<AuthBloc>().add(ObscureButtonEvent());
-                          },
+                          onPressed: () => context.read<AuthBloc>().add(
+                            ObscureButtonEvent(),
+                          ),
                           icon: state is ObscureButtonState && !state.isObscure
                               ? const Icon(Icons.visibility_outlined)
                               : const Icon(Icons.visibility_off_outlined),
@@ -108,7 +101,15 @@ class RegisterScreen extends StatelessWidget {
                       const SizedBox(height: 30),
 
                       // Login Button
-                      CustomButton(text: "Sign Up", onPressed: () {}),
+                      CustomButton(
+                        text: "Sign Up",
+                        onPressed: () => context.read<AuthBloc>().add(
+                          RegisterNewUserEvent(
+                            emailEditingController.text.trim(),
+                            passwordEditingController.text.trim(),
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 20),
                       const Align(
                         alignment: Alignment.center,

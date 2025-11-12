@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:login_register_app/core/constants/app_colors.dart';
 import 'package:login_register_app/features/auth/screens/login_screen.dart';
 import 'package:login_register_app/features/auth/screens/register_screen.dart';
@@ -10,51 +11,73 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBgColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          /// 🔹 Main content
+          const Text(
+            "Welcome",
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 30,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Expanded(
-                child: const Text(
-                  "Welcome",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 30,
-                    color: Colors.black,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.indigo,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30.0,
+                    vertical: 15.0,
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => LoginScreen()),
+                  );
+                },
+                child: const Text('Login'),
               ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => LoginScreen()),
-                      );
-                    },
-                    child: Text('Login'),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.indigo,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => RegisterScreen()),
-                      );
-                    },
-                    child: Text('Sign up'),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30.0,
+                    vertical: 15.0,
                   ),
-                ],
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => RegisterScreen()),
+                  );
+                },
+                child: const Text('Sign Up'),
               ),
-              SizedBox(height: 50),
             ],
           ),
-        ),
+        ],
       ),
     );
   }

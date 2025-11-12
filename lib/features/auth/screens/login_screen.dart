@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login_register_app/core/constants/app_colors.dart';
-
 import 'package:login_register_app/core/constants/loading_overlay.dart';
+import 'package:login_register_app/core/widgets/custom_button.dart';
+import 'package:login_register_app/core/widgets/custom_textfield.dart';
 import 'package:login_register_app/features/auth/bloc/auth_bloc.dart';
 import 'package:login_register_app/features/auth/bloc/auth_event.dart';
 import 'package:login_register_app/features/auth/bloc/auth_state.dart';
 import 'package:login_register_app/features/auth/screens/register_screen.dart';
-import 'package:login_register_app/features/home/home_screen.dart';
-import 'package:login_register_app/core/widgets/custom_button.dart';
-import 'package:login_register_app/core/widgets/custom_textfield.dart';
+import 'package:material_symbols_icons/symbols.dart';
+
+import '../../profile/profile_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -17,15 +18,15 @@ class LoginScreen extends StatelessWidget {
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
 
-  void _onLoginPressed(BuildContext context) {
-    FocusScope.of(context).unfocus(); // hides the keyboard
-    final email = emailEditingController.text.trim();
-    final password = passwordEditingController.text.trim();
-
-    context.read<AuthBloc>().add(
-      LoginSubmitEvent(email: email, password: password),
-    );
-  }
+  // void _onLoginPressed(BuildContext context) {
+  //   FocusScope.of(context).unfocus(); // hides the keyboard
+  //   final email = emailEditingController.text.trim();
+  //   final password = passwordEditingController.text.trim();
+  //
+  //   context.read<AuthBloc>().add(
+  //     LoginSubmitEvent(email: email, password: password),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +38,11 @@ class LoginScreen extends StatelessWidget {
           if (state is AuthSuccessState) {
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(const SnackBar(content: Text("Login Successfully")));
+            ).showSnackBar(SnackBar(content: Text(state.message)));
 
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => HomeScreen(email: state.email),
+                builder: (context) => ProfileScreen(email: state.message),
               ),
             );
           } else if (state is AuthErrorState) {
@@ -115,7 +116,7 @@ class LoginScreen extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () => print("forgot password"),
                           child: Text(
-                            'Forgot Password?',
+                            'Forgot your password?',
                             style: TextStyle(
                               color: Colors.grey,
                               fontWeight: FontWeight.w500,
@@ -128,7 +129,12 @@ class LoginScreen extends StatelessWidget {
                       // Login Button
                       CustomButton(
                         text: "Sign in",
-                        onPressed: () => _onLoginPressed(context),
+                        onPressed: () => context.read<AuthBloc>().add(
+                          LoginUserEvent(
+                            emailEditingController.text.trim(),
+                            passwordEditingController.text.trim(),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 20),
                       const Align(
@@ -143,7 +149,7 @@ class LoginScreen extends StatelessWidget {
                             backgroundColor: Colors.white,
                           ),
                           onPressed: () {},
-                          icon: Icon(Icons.apple),
+                          icon: Icon(Symbols.google_home_devices),
                         ),
                       ),
                       Row(

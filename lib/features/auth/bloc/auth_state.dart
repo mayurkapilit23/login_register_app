@@ -16,10 +16,10 @@ class AuthLoadingState extends AuthState {
 
 class AuthSuccessState extends AuthState {
   // show data
-  final String email;
-  AuthSuccessState(this.email);
+  final String message;
+  AuthSuccessState(this.message);
   @override
-  List<Object?> get props => [email];
+  List<Object?> get props => [message];
 }
 
 class AuthErrorState extends AuthState {
