@@ -28,13 +28,14 @@ class NavigateToLoginEvent extends AuthEvent {
 }
 
 class RegisterNewUserEvent extends AuthEvent {
+  final String name;
   final String email;
   final String password;
 
-  RegisterNewUserEvent(this.email, this.password);
+  RegisterNewUserEvent(this.name, this.email, this.password);
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [name, email, password];
 }
 
 class LoginUserEvent extends AuthEvent {

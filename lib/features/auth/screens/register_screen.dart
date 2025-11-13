@@ -103,12 +103,18 @@ class RegisterScreen extends StatelessWidget {
                       // Login Button
                       CustomButton(
                         text: "Sign Up",
-                        onPressed: () => context.read<AuthBloc>().add(
-                          RegisterNewUserEvent(
-                            emailEditingController.text.trim(),
-                            passwordEditingController.text.trim(),
-                          ),
-                        ),
+                        onPressed: () {
+                          context.read<AuthBloc>().add(
+                            RegisterNewUserEvent(
+                              fullNameEditingController.text.trim(),
+                              emailEditingController.text.trim(),
+                              passwordEditingController.text.trim(),
+                            ),
+                          );
+                          // fullNameEditingController.clear();
+                          // emailEditingController.clear();
+                          // passwordEditingController.clear();
+                        },
                       ),
                       const SizedBox(height: 20),
                       const Align(

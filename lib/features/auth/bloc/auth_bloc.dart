@@ -36,8 +36,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         event.password,
       );
 
-      emit(AuthSuccessState(userLogin['message']));
-      emit(AuthSuccessState(userLogin['user']));
+      emit(AuthSuccessState('hi'));
+      // emit(AuthSuccessState(userLogin['message']));
+      // emit(AuthSuccessState(userLogin['user']));
     } catch (e) {
       emit(AuthErrorState('Error: ${e.toString()}'));
       print('Error: ${e.toString()}');
@@ -66,14 +67,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await Future.delayed(const Duration(seconds: 2));
 
       final newUser = await apiServices.userRegister(
+        event.name,
         event.email,
         event.password,
       );
-
-      emit(AuthSuccessState(newUser['message']));
+      // emit(AuthSuccessState(newUser['message']));
+      emit(
+        AuthSuccessState(
+          newUser['message']?.toString() ?? "User registered successfully",
+        ),
+      );
+      print("Register API Response: $newUser");
     } catch (e) {
       emit(AuthErrorState('Error: ${e.toString()}'));
-      print('Error: ${e.toString()}');
+      print('Bloc Error: ${e.toString()}');
     }
   }
 

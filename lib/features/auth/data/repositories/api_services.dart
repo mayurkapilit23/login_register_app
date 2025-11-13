@@ -8,6 +8,7 @@ class ApiServices {
   static const BASE_URL = 'http://10.160.45.136:3000';
 
   Future<Map<String, dynamic>> userRegister(
+    String name,
     String email,
     String password,
   ) async {
@@ -16,7 +17,7 @@ class ApiServices {
     final response = await http.post(
       url,
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"email": email, "password": password}),
+      body: jsonEncode({"name": name, "email": email, "password": password}),
     );
     // Check internet connection first
     if (!await NetworkUtils.isConnected()) {

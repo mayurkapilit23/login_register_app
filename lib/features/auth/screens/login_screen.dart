@@ -18,16 +18,6 @@ class LoginScreen extends StatelessWidget {
   final emailEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
 
-  // void _onLoginPressed(BuildContext context) {
-  //   FocusScope.of(context).unfocus(); // hides the keyboard
-  //   final email = emailEditingController.text.trim();
-  //   final password = passwordEditingController.text.trim();
-  //
-  //   context.read<AuthBloc>().add(
-  //     LoginSubmitEvent(email: email, password: password),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,12 +119,16 @@ class LoginScreen extends StatelessWidget {
                       // Login Button
                       CustomButton(
                         text: "Sign in",
-                        onPressed: () => context.read<AuthBloc>().add(
-                          LoginUserEvent(
-                            emailEditingController.text.trim(),
-                            passwordEditingController.text.trim(),
-                          ),
-                        ),
+                        onPressed: () {
+                          context.read<AuthBloc>().add(
+                            LoginUserEvent(
+                              emailEditingController.text.trim(),
+                              passwordEditingController.text.trim(),
+                            ),
+                          );
+                          emailEditingController.clear();
+                          passwordEditingController.clear();
+                        },
                       ),
                       const SizedBox(height: 20),
                       const Align(
@@ -144,12 +138,12 @@ class LoginScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       Align(
                         alignment: Alignment.center,
-                        child: IconButton(
+                        child: ElevatedButton(
                           style: IconButton.styleFrom(
                             backgroundColor: Colors.white,
                           ),
                           onPressed: () {},
-                          icon: Icon(Symbols.google_home_devices),
+                          child: Icon(Symbols.google_home_devices),
                         ),
                       ),
                       Row(
